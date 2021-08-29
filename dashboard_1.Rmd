@@ -1,0 +1,58 @@
+---
+title: "Police Enforcement Camera Locations"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(rvest)
+library(tidyverse)
+library(rvest)
+library(tm)
+library(proxy)
+library(knitr)
+
+#source("script1.R") - src file not working for some reason, will investigate & fix.
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### West Australian Intersections with Police Enforcement Cameras
+```{r}
+url <- "https://www.police.wa.gov.au/Traffic/Cameras/Camera-locations"
+
+pol_cams <- url %>%
+  xml2::read_html() %>%
+  html_nodes(xpath = '//*[@id="page-content"]/article/span/div[4]/div/table') %>%
+  html_table()
+
+
+pol_cams_df <- as.data.frame(pol_cams) %>% 
+  rename(suburb = Red.light.speed.camera.locations, intersection = Red.light.speed.camera.locations.1)
+```
+
+
+```{r}
+
+kable(pol_cams_df)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
